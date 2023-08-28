@@ -11,7 +11,7 @@ import SwiftUI
 struct NoteAppFirebaseApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            MainView()
         }
     }
 }
