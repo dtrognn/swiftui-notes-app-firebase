@@ -8,8 +8,16 @@
 import SwiftUI
 
 struct MainView: View {
+    @StateObject private var viewModel = MainVM()
+
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        Group {
+            if viewModel.userSession != nil {
+                HomeView()
+            } else {
+                LoginView()
+            }
+        }
     }
 }
 

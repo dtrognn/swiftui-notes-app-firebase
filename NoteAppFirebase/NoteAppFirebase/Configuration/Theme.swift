@@ -57,9 +57,20 @@ public protocol INoteAppTheme {
     var chooseColor8: Color { get }
     var chooseColor9: Color { get }
     var chooseColor10: Color { get }
+
+    var btnEnableColor: Color { get }
+    var btnDisableColor: Color { get }
+    var whiteTextColor: Color { get }
+    var authenticationBackgroundColor: Color { get }
 }
 
 public struct NoteAppTheme: INoteAppTheme {
+    public var whiteTextColor: Color { return Color(hexString: "#FFFFFF")! }
+    public var authenticationBackgroundColor: Color { return Color(hexString: "#836096")! }
+
+    public var btnEnableColor: Color { return Color(hexString: "#C08261")! }
+    public var btnDisableColor: Color { return Color(hexString: "#9E9FA5")! }
+
     public var chooseColor1: Color { return Color(hexString: "#FFC95F")! }
     public var chooseColor2: Color { return Color(hexString: "#898121")! }
     public var chooseColor3: Color { return Color(hexString: "#FF8989")! }

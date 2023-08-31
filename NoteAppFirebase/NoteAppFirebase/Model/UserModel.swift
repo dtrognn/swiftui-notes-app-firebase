@@ -6,3 +6,24 @@
 //
 
 import Foundation
+
+struct UserModel: Identifiable, Codable {
+    let id: String
+    let fullname: String
+    let email: String
+
+    var initrials: String {
+        let formatter = PersonNameComponentsFormatter()
+        if let components = formatter.personNameComponents(from: fullname) {
+            formatter.style = .abbreviated
+
+            return formatter.string(from: components)
+        }
+
+        return ""
+    }
+}
+
+extension UserModel {
+//    var MOCK_USER = UserModel(id: UUID().uuidString, fullname: "Duc Trong", email: "dtrognn@gmail.com")
+}

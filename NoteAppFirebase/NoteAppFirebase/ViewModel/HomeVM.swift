@@ -6,3 +6,11 @@
 //
 
 import Foundation
+
+class HomeVM: BaseVM {
+    @Published var isEnableButton: Bool = true
+    
+    func signOut() {
+        AuthenticationVM.shared.signOut()
+    }
+}

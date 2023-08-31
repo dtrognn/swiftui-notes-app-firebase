@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>76111813457-l02n5sn1qsv1vf7pnsnad3ju74o6gj6r.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.76111813457-l02n5sn1qsv1vf7pnsnad3ju74o6gj6r</string>
+	<key>API_KEY</key>
+	<string>AIzaSyDczOUtdqfKWj07v_CAeK6D3sCqna2PiOE</string>
+	<key>GCM_SENDER_ID</key>
+	<string>76111813457</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.dtrognn.NoteAppFirebase</string>
+	<key>PROJECT_ID</key>
+	<string>dtrognn-note-app</string>
+	<key>STORAGE_BUCKET</key>
+	<string>dtrognn-note-app.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:76111813457:ios:98cfa67543347e11be1170</string>
+</dict>
+</plist>

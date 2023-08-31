@@ -8,8 +8,20 @@
 import SwiftUI
 
 struct HomeView: View {
+    @StateObject private var viewModel = HomeVM()
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack {
+            logoutButton
+        }.padding(.horizontal, AppConfig.layout.standardSpace)
+    }
+}
+
+private extension HomeView {
+    var logoutButton: some View {
+        CommonButton(text: "Sign out", isEnable: $viewModel.isEnableButton) {
+            viewModel.signOut()
+        }
     }
 }
 
