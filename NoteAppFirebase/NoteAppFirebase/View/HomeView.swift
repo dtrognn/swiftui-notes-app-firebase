@@ -9,21 +9,15 @@ import SwiftUI
 
 struct HomeView: View {
     @StateObject private var viewModel = HomeVM()
-    
+
     var body: some View {
         VStack {
-            logoutButton
-        }.padding(.horizontal, AppConfig.layout.standardSpace)
-    }
-}
-
-private extension HomeView {
-    var logoutButton: some View {
-        CommonButton(text: "Sign out", isEnable: $viewModel.isEnableButton) {
-            viewModel.signOut()
+            Spacer()
         }
     }
 }
+
+private extension HomeView {}
 
 struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
