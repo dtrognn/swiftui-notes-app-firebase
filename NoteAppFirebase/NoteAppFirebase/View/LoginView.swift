@@ -63,7 +63,9 @@ private extension LoginView {
 
     var loginButton: some View {
         CommonButton(text: "Login", isEnable: $viewModel.isEnableButton) {
-            // TODO: - Login
+            Task {
+                try await viewModel.signIn()
+            }
         }
     }
 

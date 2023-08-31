@@ -8,16 +8,21 @@
 import Combine
 import Foundation
 
-class LoginVM: ObservableObject {
+class LoginVM: BaseVM {
     @Published var email: String = ""
     @Published var password: String = ""
     @Published var isEnableButton: Bool = false
 
-    init() {
+    override init() {
+        super.init()
         makeSubscription()
     }
 
-    private func makeSubscription() {
+    func signIn() async throws {
+        try await AuthenticationVM.shared.signIn(withEmail: email, password: password)
+    }
+
+    override func makeSubscription() {
         Publishers.CombineLatest($email, $password).map { email, password in
             self.validate(email) && self.validate(password)
         }.assign(to: &$isEnableButton)

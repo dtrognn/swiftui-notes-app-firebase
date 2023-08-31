@@ -12,31 +12,45 @@ struct RegisterView: View {
     @Environment(\.presentationMode) private var presentationMode
 
     var body: some View {
-        VStack(spacing: AppConfig.layout.hugeSpace) {
+        ScrollView {
             VStack(spacing: AppConfig.layout.hugeSpace) {
-                navigationView
+                VStack(spacing: AppConfig.layout.hugeSpace) {
+                    navigationView
 
-                VStack(alignment: .leading, spacing: AppConfig.layout.mediumSpace) {
-                    registerText
-                    createAnAccountText
-                }.frame(maxWidth: .infinity, alignment: .leading)
-                    .padding(.horizontal, AppConfig.layout.standardSpace)
-                    .padding(.bottom, AppConfig.layout.hugeSpace)
-                    .padding(.bottom, AppConfig.layout.hugeSpace)
-            }.background(AppConfig.theme.authenticationBackgroundColor)
+                    VStack(alignment: .leading, spacing: AppConfig.layout.mediumSpace) {
+                        registerText
+                        createAnAccountText
+                    }.frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.horizontal, AppConfig.layout.standardSpace)
+                        .padding(.bottom, AppConfig.layout.hugeSpace)
+                        .padding(.bottom, AppConfig.layout.hugeSpace)
+                }.background(AppConfig.theme.authenticationBackgroundColor)
 
-            VStack(spacing: AppConfig.layout.hugeSpace) {
-                VStack(spacing: AppConfig.layout.standardSpace) {
-                    emailView
-                    passwordView
-                    confirmPasswordView
+                VStack(spacing: AppConfig.layout.hugeSpace) {
+                    VStack(spacing: AppConfig.layout.standardSpace) {
+                        fullnameView
+                        emailView
+                        passwordView
+                        confirmPasswordView
+                    }
+                    registerButton
+                    Spacer()
+                    registerView
                 }
-                registerButton
-                Spacer()
-                registerView
-            }.edgesIgnoringSafeArea(.all)
                 .padding(.horizontal, AppConfig.layout.standardSpace)
-        }.navigationBarBackButtonHidden(true)
+            }
+        }.edgesIgnoringSafeArea(.all)
+            .navigationBarBackButtonHidden(true)
+    }
+}
+
+private extension RegisterView {
+    var registerButton: some View {
+        CommonButton(text: "Register", isEnable: $viewModel.isEnableButton) {
+            Task {
+                try await viewModel.registerUser()
+            }
+        }
     }
 }
 
@@ -45,7 +59,7 @@ private extension RegisterView {
         HStack(spacing: AppConfig.layout.zero) {
             backButton
             Spacer()
-        }
+        }.padding(.top, AppConfig.layout.bottomButtonSpace)
     }
 
     var emailView: some View {
@@ -72,6 +86,18 @@ private extension RegisterView {
                           placeholder: "Enter your password")
     }
 
+    var fullnameView: some View {
+        VStack(alignment: .leading, spacing: AppConfig.layout.mediumSpace) {
+            fullnameText
+            fullnameTextField
+        }
+    }
+
+    var fullnameTextField: some View {
+        CommonTextField(textInput: $viewModel.fullname,
+                        placeholder: "Enter your full name")
+    }
+
     var confirmPasswordView: some View {
         VStack(alignment: .leading, spacing: AppConfig.layout.mediumSpace) {
             confirmPasswordText
@@ -81,12 +107,6 @@ private extension RegisterView {
 
     var confirmPasswordSecureField: some View {
         CommonSecureField(textInput: $viewModel.confirmPassword, placeholder: "Confirm Password")
-    }
-
-    var registerButton: some View {
-        CommonButton(text: "Register", isEnable: $viewModel.isEnableButton) {
-            // TODO: - Login
-        }
     }
 
     var backButton: some View {
@@ -133,6 +153,12 @@ private extension RegisterView {
 
     var confirmPasswordText: some View {
         Text("Confirm Password")
+            .font(AppConfig.font.regular16)
+            .foregroundColor(AppConfig.theme.textNormalColor)
+    }
+
+    var fullnameText: some View {
+        Text("Full name")
             .font(AppConfig.font.regular16)
             .foregroundColor(AppConfig.theme.textNormalColor)
     }

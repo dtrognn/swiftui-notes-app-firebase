@@ -6,19 +6,29 @@
 //
 
 import Combine
-import Foundation
+import FirebaseAuth
 
-class RegisterVM: ObservableObject {
+class RegisterVM: AuthenticationVM {
     @Published var email: String = ""
     @Published var password: String = ""
     @Published var confirmPassword: String = ""
+    @Published var fullname: String = ""
     @Published var isEnableButton: Bool = false
 
-    init() {
+    override init() {
+        super.init()
         makeSubscription()
     }
 
-    private func makeSubscription() {
+    func registerUser() async throws {
+        try await AuthenticationVM.shared.registerUser(withEmail: email, password: password, fullname: fullname)
+    }
+
+//    func registerUser() async throws {
+//        try await registerUser(withEmail: email, password: password, fullname: fullname)
+//    }
+
+    override func makeSubscription() {
         Publishers.CombineLatest3($email, $password, $confirmPassword).map { email, password, confirmPassword in
             self.validate(email) && self.validate(password) && self.validate(confirmPassword) && password == confirmPassword
         }.assign(to: &$isEnableButton)

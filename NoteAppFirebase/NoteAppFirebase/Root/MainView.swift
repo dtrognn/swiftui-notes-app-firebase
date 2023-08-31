@@ -8,8 +8,16 @@
 import SwiftUI
 
 struct MainView: View {
+    @StateObject private var viewModel = MainVM()
+
     var body: some View {
-        LoginView()
+        Group {
+            if viewModel.userSession != nil {
+                HomeView()
+            } else {
+                LoginView()
+            }
+        }
     }
 }
 
