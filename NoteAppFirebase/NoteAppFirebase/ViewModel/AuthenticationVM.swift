@@ -23,7 +23,12 @@ class AuthenticationVM: BaseVM {
     }
     
     func signIn(withEmail email: String, password: String) async throws {
-        print("AAA sign in")
+        do {
+            let result = try await Auth.auth().signIn(withEmail: email, password: password)
+            self.userSession = result.user
+        } catch {
+            print("Login failed: \(error.localizedDescription)")
+        }
     }
     
     func registerUser(withEmail email: String, password: String, fullname: String) async throws {
