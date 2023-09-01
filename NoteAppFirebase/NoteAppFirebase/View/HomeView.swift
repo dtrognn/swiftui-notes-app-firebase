@@ -9,19 +9,35 @@ import SwiftUI
 
 struct HomeView: View {
     @StateObject private var viewModel = HomeVM()
-    
+
     var body: some View {
-        VStack {
-            logoutButton
-        }.padding(.horizontal, AppConfig.layout.standardSpace)
+        ZStack {
+            AppConfig.theme.backgroundColor.edgesIgnoringSafeArea(.top)
+
+            VStack(spacing: AppConfig.layout.zero) {
+                homeTextHeader
+                ScrollView(showsIndicators: false) {
+                    VStack {
+                        LazyVStack(spacing: AppConfig.layout.standardSpace) {
+                            ForEach(NoteModel.MOCK_NOTE) { note in
+                                NoteItemView(item: note)
+                            }
+                        }
+
+                        Spacer()
+                    }.padding(.horizontal, AppConfig.layout.standardSpace)
+                }.padding(.vertical, AppConfig.layout.standardSpace)
+            }
+        }
     }
 }
 
 private extension HomeView {
-    var logoutButton: some View {
-        CommonButton(text: "Sign out", isEnable: $viewModel.isEnableButton) {
-            viewModel.signOut()
-        }
+    var homeTextHeader: some View {
+        Text("Note Recent")
+            .font(AppConfig.font.bold20)
+            .padding(.top, AppConfig.layout.mediumSpace)
+            .padding(.top, AppConfig.layout.bottomButtonSpace)
     }
 }
 
