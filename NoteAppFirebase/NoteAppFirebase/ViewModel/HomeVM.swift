@@ -8,5 +8,5 @@
 import Foundation
 
 class HomeVM: BaseVM {
-    
+    @Published var notes: [NoteModel] = []
 }

@@ -13,15 +13,20 @@ struct HomeView: View {
     var body: some View {
         ZStack {
             AppConfig.theme.backgroundColor.edgesIgnoringSafeArea(.top)
-            
+
             VStack(spacing: AppConfig.layout.zero) {
                 homeTextHeader
-                ScrollView {
+                ScrollView(showsIndicators: false) {
                     VStack {
-                        // content
+                        LazyVStack(spacing: AppConfig.layout.standardSpace) {
+                            ForEach(NoteModel.MOCK_NOTE) { note in
+                                NoteItemView(item: note)
+                            }
+                        }
+
                         Spacer()
-                    }
-                }.padding(.top, AppConfig.layout.standardSpace)
+                    }.padding(.horizontal, AppConfig.layout.standardSpace)
+                }.padding(.vertical, AppConfig.layout.standardSpace)
             }
         }
     }
@@ -31,7 +36,7 @@ private extension HomeView {
     var homeTextHeader: some View {
         Text("Note Recent")
             .font(AppConfig.font.bold20)
-            .padding(.vertical, AppConfig.layout.mediumSpace)
+            .padding(.top, AppConfig.layout.mediumSpace)
             .padding(.top, AppConfig.layout.bottomButtonSpace)
     }
 }
