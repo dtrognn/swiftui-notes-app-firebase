@@ -11,8 +11,6 @@ import Foundation
 open class BaseVM: ObservableObject {
     var cancellableSet: Set<AnyCancellable> = []
 
-    var onUpdateNotes = PassthroughSubject<Void, Never>()
-
     init() {
         loadData()
         makeSubscription()
