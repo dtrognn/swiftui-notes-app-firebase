@@ -91,6 +91,25 @@ class AuthenticationVM: BaseVM {
         }
     }
     
+    func delete(note: NoteModel) async throws {
+        do {
+            guard let user = self.userSession else { return }
+            
+            let userDocRef = self.COLLECTION_USER.document(user.uid)
+            var notes = self.currentUser?.notes ?? []
+            
+            if let index = notes.firstIndex(where: { $0.id == note.id }) {
+                notes.remove(at: index)
+                let notesData = notes.map { $0.asDict }
+                
+                try await userDocRef.updateData(["notes": notesData])
+                await self.fetchUser()
+            }
+        } catch {
+            print("AAA failed to delete note: \(error.localizedDescription)")
+        }
+    }
+    
     func fetchUser() async {
         if let userId = userSession?.uid {
             do {

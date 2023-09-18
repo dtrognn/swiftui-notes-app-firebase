@@ -27,7 +27,13 @@ struct HomeView: View {
                                     NoteItemView(item: note) {
                                         selectedNote = note
                                         isShowCreateNote = true
-                                    }
+                                    }.contextMenu {
+                                        Button {
+                                            Task { try await viewModel.delete(note: note) }
+                                        } label: {
+                                            Label("Delete", systemImage: "trash")
+                                        }
+                                    }.animation(.spring(), value: 1)
                                 }
                             }
 
@@ -38,7 +44,7 @@ struct HomeView: View {
 
                 createNoteButton
             }
-        }.onAppear() {
+        }.onAppear {
             Task {
                 await AuthenticationVM.shared.fetchUser()
             }

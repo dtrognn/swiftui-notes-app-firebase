@@ -11,11 +11,17 @@ import Foundation
 class HomeVM: BaseVM {
     @Published var notes: [NoteModel] = []
 
+    let service = AuthenticationVM.shared
+
     override func loadData() {
-        AuthenticationVM.shared.onUpdateNotes.sink { [weak self] notes in
+        service.onUpdateNotes.sink { [weak self] notes in
             DispatchQueue.main.async {
                 self?.notes = notes
             }
         }.store(in: &cancellableSet)
+    }
+
+    func delete(note: NoteModel) async throws {
+        try await service.delete(note: note)
     }
 }
