@@ -126,7 +126,8 @@ class AuthenticationVM: BaseVM {
                     NoteModel(id: data["id"] as? String ?? "",
                               title: data["title"] as? String ?? "",
                               description: data["description"] as? String ?? "",
-                              timestamp: data["timestamp"] as? Double ?? 0)
+                              timestamp: data["timestamp"] as? Double ?? 0,
+                              color: data["color"] as? Int ?? 0)
                 }
                     
                 self.currentUser = UserModel(id: id, fullname: fullname, email: email, notes: notes)

@@ -15,7 +15,10 @@ class CreateNoteVM: BaseVM {
     @Published var title: String = ""
     @Published var description: String = ""
     @Published var timestamp: String = ""
+    @Published var selectedColor: NoteColor = .color1
     @Published var isEnable: Bool = true
+    @Published var selectedModel: NoteModel?
+    var arrColor: [NoteColor] = [.color1, .color2, .color3, .color4, .color5, .color6, .color7, .color8, .color9, .color10]
     
     @Published var currentUser: UserModel?
     
@@ -42,7 +45,11 @@ class CreateNoteVM: BaseVM {
     }
     
     func save() async throws {
-        let note = NoteModel(id: id, title: title, description: description, timestamp: getCurrentTime().toTimestampDouble() ?? 0)
+        let note = NoteModel(id: id,
+                             title: title,
+                             description: description,
+                             timestamp: getCurrentTime().toTimestampDouble() ?? 0,
+                             color: selectedColor.rawValue)
         
         if selectedNote != nil {
             try await service.update(note: note)

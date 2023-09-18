@@ -23,6 +23,7 @@ struct CreateNoteView: View {
                 navigationView
                 ScrollView(showsIndicators: false) {
                     VStack(spacing: AppConfig.layout.standardSpace) {
+                        SelectColorView(viewModel: viewModel)
                         titleView
                         descriptionView
                         saveButton
