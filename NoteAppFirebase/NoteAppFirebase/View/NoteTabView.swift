@@ -39,14 +39,14 @@ struct NoteTabView: View {
 
 private extension NoteTabView {
     var homeTabView: some View {
-        VStack(spacing: AppConfig.layout.mediumSpace) {
+        VStack(spacing: AppConfig.layout.smallSpace) {
             homeButton
             homeText
         }
     }
 
     var userTabView: some View {
-        VStack(spacing: AppConfig.layout.mediumSpace) {
+        VStack(spacing: AppConfig.layout.smallSpace) {
             userButton
             userText
         }
