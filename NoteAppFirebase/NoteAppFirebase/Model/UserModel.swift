@@ -11,7 +11,7 @@ struct UserModel: Identifiable, Codable {
     let id: String
     let fullname: String
     let email: String
-    let notes: [NoteModel]
+    var notes: [NoteModel]
 
     var initrials: String {
         let formatter = PersonNameComponentsFormatter()

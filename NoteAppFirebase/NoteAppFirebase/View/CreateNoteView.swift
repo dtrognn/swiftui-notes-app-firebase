@@ -8,8 +8,12 @@
 import SwiftUI
 
 struct CreateNoteView: View {
-    @StateObject private var viewModel = CreateNoteVM()
+    @StateObject private var viewModel: CreateNoteVM
     @Environment(\.presentationMode) var presentationMode
+    
+    init(note: NoteModel? = nil) {
+        _viewModel = StateObject(wrappedValue: CreateNoteVM(selectedModel: note))
+    }
 
     var body: some View {
         ZStack {

@@ -46,9 +46,6 @@ class AuthenticationVM: BaseVM {
             self.userSession = result.user
             
             try await self.storeUserInfo(user: result.user, fullname: fullname, email: email)
-            
-//            let userData = UserModel(id: result.user.uid, fullname: fullname, email: email, notes: []).asDict
-//            try await COLLECTION_USER.document(result.user.uid).setData(userData)
             await self.fetchUser()
         } catch {
             print("Register failed: \(error.localizedDescription)")
@@ -72,6 +69,25 @@ class AuthenticationVM: BaseVM {
             await self.fetchUser()
         } catch {
             print("AAA Save note falied: \(error.localizedDescription)")
+        }
+    }
+    
+    func update(note: NoteModel) async throws {
+        do {
+            guard let user = userSession else { return }
+            
+            let userDocRef = self.COLLECTION_USER.document(user.uid)
+            var notes = self.currentUser?.notes ?? []
+                    
+            if let index = notes.firstIndex(where: { $0.id == note.id }) {
+                notes[index] = note
+                let notesData = notes.map { $0.asDict }
+
+                try await userDocRef.updateData(["notes": notesData])
+                await self.fetchUser()
+            }
+        } catch {
+            print("AAA Failed to update note: \(error.localizedDescription)")
         }
     }
     

@@ -9,9 +9,12 @@ import SwiftUI
 
 struct HomeView: View {
     @StateObject private var viewModel = HomeVM()
+    @State private var isShowCreateNote: Bool = false
+    @State private var selectedNote: NoteModel? = nil
 
     var body: some View {
         ZStack {
+            NavigationLink(destination: CreateNoteView(note: selectedNote), isActive: $isShowCreateNote, label: {})
             AppConfig.theme.backgroundColor.edgesIgnoringSafeArea(.top)
 
             ZStack(alignment: .bottomTrailing) {
@@ -21,7 +24,10 @@ struct HomeView: View {
                         VStack {
                             LazyVStack(spacing: AppConfig.layout.standardSpace) {
                                 ForEach(viewModel.notes) { note in
-                                    NoteItemView(item: note)
+                                    NoteItemView(item: note) {
+                                        selectedNote = note
+                                        isShowCreateNote = true
+                                    }
                                 }
                             }
 
@@ -31,6 +37,10 @@ struct HomeView: View {
                 }
 
                 createNoteButton
+            }
+        }.onAppear() {
+            Task {
+                await AuthenticationVM.shared.fetchUser()
             }
         }
     }
@@ -46,16 +56,17 @@ private extension HomeView {
     }
 
     var createNoteButton: some View {
-        Button {} label: {
-            NavigationLink(destination: CreateNoteView()) {
-                Image(systemName: "plus.circle.fill")
-                    .resizable()
-                    .renderingMode(.template)
-                    .foregroundColor(AppConfig.theme.iconColor)
-                    .frame(width: 50, height: 50)
-                    .padding(.trailing, AppConfig.layout.standardSpace)
-                    .padding(.bottom, AppConfig.layout.standardSpace)
-            }
+        Button {
+            selectedNote = nil
+            isShowCreateNote = true
+        } label: {
+            Image(systemName: "plus.circle.fill")
+                .resizable()
+                .renderingMode(.template)
+                .foregroundColor(AppConfig.theme.iconColor)
+                .frame(width: 50, height: 50)
+                .padding(.trailing, AppConfig.layout.standardSpace)
+                .padding(.bottom, AppConfig.layout.standardSpace)
         }
     }
 }
