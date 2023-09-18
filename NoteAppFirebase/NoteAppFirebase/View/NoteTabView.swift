@@ -56,7 +56,7 @@ private extension NoteTabView {
         Button {
             tabSelected = 0
         } label: {
-            Image(systemName: "house.fill")
+            Image(systemName: "house.circle.fill")
                 .resizable()
                 .renderingMode(.template)
                 .frame(width: 30, height: 30)
@@ -68,7 +68,7 @@ private extension NoteTabView {
         Button {
             tabSelected = 1
         } label: {
-            Image(systemName: "person.circle.fill")
+            Image(systemName: "person.circle")
                 .resizable()
                 .renderingMode(.template)
                 .frame(width: 30, height: 30)
