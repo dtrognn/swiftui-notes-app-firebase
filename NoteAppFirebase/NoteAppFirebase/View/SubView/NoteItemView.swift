@@ -46,6 +46,6 @@ private extension NoteItemView {
 
 struct NoteItemView_Previews: PreviewProvider {
     static var previews: some View {
-        NoteItemView(item: NoteModel(title: "Vu Duc Trong Vu Duc Trong Vu Duc Trong Vu Duc Trong Vu Duc Trong", description: " dasdasd sdsadas dsadas adasd  dasdasd sdsadas dsadas adasd  dasdasd sdsadas dsadas adasd", timestamp: 1693554563))
+        NoteItemView(item: NoteModel(id: UUID().uuidString, title: "Vu Duc Trong Vu Duc Trong Vu Duc Trong Vu Duc Trong Vu Duc Trong", description: " dasdasd sdsadas dsadas adasd  dasdasd sdsadas dsadas adasd  dasdasd sdsadas dsadas adasd", timestamp: 1693554563))
     }
 }
