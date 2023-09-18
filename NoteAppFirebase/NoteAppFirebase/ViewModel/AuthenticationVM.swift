@@ -147,5 +147,16 @@ class AuthenticationVM: BaseVM {
         } catch {}
     }
     
-    func deleteAccount() {}
+    func deleteAccount() {
+        let user = Auth.auth().currentUser
+
+        user?.delete { error in
+            if let error = error {
+                print("AAA Failed to delete user: \(error.localizedDescription)")
+            } else {
+                self.userSession = nil
+                self.currentUser = nil
+            }
+        }
+    }
 }
