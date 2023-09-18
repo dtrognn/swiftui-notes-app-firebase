@@ -9,6 +9,7 @@ import Foundation
 
 enum DateFormatType: String {
     case dayMonthYear = "dd/MM/yyyy"
+    case full = "HH:mm:ss - dd/MM/yyyy"
 }
 
 extension Double {
