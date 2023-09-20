@@ -38,6 +38,10 @@ struct RegisterView: View {
                     registerView
                 }
                 .padding(.horizontal, AppConfig.layout.standardSpace)
+            }.alert(viewModel.alert.title, isPresented: $viewModel.isShowError, presenting: viewModel.alert) { _ in
+                Button("Dismiss", role: .cancel) {}
+            } message: { alert in
+                Text(alert.message)
             }
         }.edgesIgnoringSafeArea(.all)
             .navigationBarBackButtonHidden(true)

@@ -11,6 +11,8 @@ import Foundation
 class CreateNoteVM: BaseVM {
     private var selectedNote: NoteModel?
     
+    @Published var alert = Alert(title: "Error", message: "")
+    @Published var isShowError: Bool = false
     @Published var id: String = UUID().uuidString
     @Published var title: String = ""
     @Published var description: String = ""
@@ -41,6 +43,13 @@ class CreateNoteVM: BaseVM {
             DispatchQueue.main.async {
                 self?.currentUser = currentUser
             }
+        }.store(in: &cancellableSet)
+    }
+    
+    override func subcribe() {
+        service.onReceiveError.sink { [weak self] error in
+            self?.alert.message = error
+            self?.isShowError = true
         }.store(in: &cancellableSet)
     }
     

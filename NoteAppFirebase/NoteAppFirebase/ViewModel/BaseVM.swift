@@ -14,9 +14,12 @@ open class BaseVM: ObservableObject {
     init() {
         loadData()
         makeSubscription()
+        subcribe()
     }
 
     open func loadData() {}
 
     open func makeSubscription() {}
+    
+    open func subcribe() {}
 }
