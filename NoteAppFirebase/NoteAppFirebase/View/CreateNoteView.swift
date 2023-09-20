@@ -10,7 +10,7 @@ import SwiftUI
 struct CreateNoteView: View {
     @StateObject private var viewModel: CreateNoteVM
     @Environment(\.presentationMode) var presentationMode
-    
+
     init(note: NoteModel? = nil) {
         _viewModel = StateObject(wrappedValue: CreateNoteVM(selectedModel: note))
     }
@@ -23,11 +23,16 @@ struct CreateNoteView: View {
                 navigationView
                 ScrollView(showsIndicators: false) {
                     VStack(spacing: AppConfig.layout.standardSpace) {
+                        SelectColorView(viewModel: viewModel)
                         titleView
                         descriptionView
                         saveButton
                     }.padding(.horizontal, AppConfig.layout.standardSpace)
                 }.padding(.vertical, AppConfig.layout.standardSpace)
+            }.alert(viewModel.alert.title, isPresented: $viewModel.isShowError, presenting: viewModel.alert) { _ in
+                Button("Dismiss", role: .cancel) {}
+            } message: { alert in
+                Text(alert.message)
             }
         }.navigationBarBackButtonHidden()
     }
@@ -40,26 +45,26 @@ private extension CreateNoteView {
             titleTextEditor
         }
     }
-    
+
     var descriptionView: some View {
         VStack(alignment: .leading, spacing: AppConfig.layout.mediumSpace) {
             descriptionText
             descriptionTextEditor
         }
     }
-    
+
     var titleTextEditor: some View {
         CommonTextEditor(text: $viewModel.title,
                          placeholder: "Enter your title",
                          height: 100)
     }
-    
+
     var descriptionTextEditor: some View {
         CommonTextEditor(text: $viewModel.description,
                          placeholder: "Enter your description",
                          height: 200)
     }
-    
+
     var saveButton: some View {
         CommonButton(text: "Save", isEnable: $viewModel.isEnable) {
             Task {
@@ -97,13 +102,13 @@ private extension CreateNoteView {
             .foregroundColor(AppConfig.theme.textNormalColor)
             .padding(.trailing, AppConfig.layout.hugeSpace)
     }
-    
+
     var titleText: some View {
         Text("Title")
             .font(AppConfig.font.regular16)
             .foregroundColor(AppConfig.theme.textNormalColor)
     }
-    
+
     var descriptionText: some View {
         Text("Description")
             .font(AppConfig.font.regular16)

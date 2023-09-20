@@ -12,14 +12,22 @@ class LoginVM: BaseVM {
     @Published var email: String = ""
     @Published var password: String = ""
     @Published var isEnableButton: Bool = false
+    @Published var isShowError: Bool = false
+    @Published var alert: Alert = .init(title: "Login error", message: "")
 
     override init() {
         super.init()
-        makeSubscription()
     }
 
     func signIn() async throws {
         try await AuthenticationVM.shared.signIn(withEmail: email, password: password)
+    }
+
+    override func subcribe() {
+        AuthenticationVM.shared.onReceiveError.sink { [weak self] error in
+            self?.alert.message = error
+            self?.isShowError = true
+        }.store(in: &cancellableSet)
     }
 
     override func makeSubscription() {

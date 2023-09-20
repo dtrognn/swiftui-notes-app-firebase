@@ -14,19 +14,23 @@ class RegisterVM: AuthenticationVM {
     @Published var confirmPassword: String = ""
     @Published var fullname: String = ""
     @Published var isEnableButton: Bool = false
+    @Published var alert = Alert(title: "Register error", message: "")
+    @Published var isShowError: Bool = false
 
     override init() {
         super.init()
-        makeSubscription()
     }
 
     func registerUser() async throws {
         try await AuthenticationVM.shared.registerUser(withEmail: email, password: password, fullname: fullname)
     }
 
-//    func registerUser() async throws {
-//        try await registerUser(withEmail: email, password: password, fullname: fullname)
-//    }
+    override func subcribe() {
+        AuthenticationVM.shared.onReceiveError.sink { [weak self] error in
+            self?.alert.message = error
+            self?.isShowError = true
+        }.store(in: &cancellableSet)
+    }
 
     override func makeSubscription() {
         Publishers.CombineLatest3($email, $password, $confirmPassword).map { email, password, confirmPassword in

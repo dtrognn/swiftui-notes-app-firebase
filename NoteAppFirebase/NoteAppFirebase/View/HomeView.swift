@@ -43,6 +43,10 @@ struct HomeView: View {
                 }
 
                 createNoteButton
+            }.alert(viewModel.alert.title, isPresented: $viewModel.isShowError, presenting: viewModel.alert) { _ in
+                Button("Dismiss", role: .cancel) {}
+            } message: { alert in
+                Text(alert.message)
             }
         }.onAppear {
             Task {

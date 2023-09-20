@@ -17,6 +17,7 @@ class AuthenticationVM: BaseVM {
     
     var onChangeStateSignIn = PassthroughSubject<Bool, Never>()
     var onUpdateNotes = PassthroughSubject<[NoteModel], Never>()
+    var onReceiveError = PassthroughSubject<String, Never>()
     
     private let COLLECTION_USER = Firestore.firestore().collection("users")
     
@@ -37,6 +38,7 @@ class AuthenticationVM: BaseVM {
             await self.fetchUser()
         } catch {
             print("Login failed: \(error.localizedDescription)")
+            self.onReceiveError.send(error.localizedDescription)
         }
     }
     
@@ -49,6 +51,7 @@ class AuthenticationVM: BaseVM {
             await self.fetchUser()
         } catch {
             print("Register failed: \(error.localizedDescription)")
+            self.onReceiveError.send(error.localizedDescription)
         }
     }
     
@@ -69,6 +72,7 @@ class AuthenticationVM: BaseVM {
             await self.fetchUser()
         } catch {
             print("AAA Save note falied: \(error.localizedDescription)")
+            self.onReceiveError.send(error.localizedDescription)
         }
     }
     
@@ -88,6 +92,7 @@ class AuthenticationVM: BaseVM {
             }
         } catch {
             print("AAA Failed to update note: \(error.localizedDescription)")
+            self.onReceiveError.send(error.localizedDescription)
         }
     }
     
@@ -107,6 +112,7 @@ class AuthenticationVM: BaseVM {
             }
         } catch {
             print("AAA failed to delete note: \(error.localizedDescription)")
+            self.onReceiveError.send(error.localizedDescription)
         }
     }
     
@@ -126,7 +132,8 @@ class AuthenticationVM: BaseVM {
                     NoteModel(id: data["id"] as? String ?? "",
                               title: data["title"] as? String ?? "",
                               description: data["description"] as? String ?? "",
-                              timestamp: data["timestamp"] as? Double ?? 0)
+                              timestamp: data["timestamp"] as? Double ?? 0,
+                              color: data["color"] as? Int ?? 0)
                 }
                     
                 self.currentUser = UserModel(id: id, fullname: fullname, email: email, notes: notes)
@@ -134,17 +141,32 @@ class AuthenticationVM: BaseVM {
                 
             } catch {
                 print("Error fetching user: \(error.localizedDescription)")
+                self.onReceiveError.send(error.localizedDescription)
             }
         }
     }
     
     func signOut() {
-        self.userSession = nil
-        self.currentUser = nil
         do {
             try Auth.auth().signOut()
-        } catch {}
+            self.userSession = nil
+            self.currentUser = nil
+        } catch {
+            self.onReceiveError.send(error.localizedDescription)
+        }
     }
     
-    func deleteAccount() {}
+    func deleteAccount() {
+        let user = Auth.auth().currentUser
+
+        user?.delete { error in
+            if let error = error {
+                print("AAA Failed to delete user: \(error.localizedDescription)")
+                self.onReceiveError.send(error.localizedDescription)
+            } else {
+                self.userSession = nil
+                self.currentUser = nil
+            }
+        }
+    }
 }

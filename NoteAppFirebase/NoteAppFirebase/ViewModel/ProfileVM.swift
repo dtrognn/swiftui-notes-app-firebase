@@ -17,6 +17,10 @@ class ProfileVM: BaseVM {
         AuthenticationVM.shared.signOut()
     }
 
+    func deleteAccount() async {
+        AuthenticationVM.shared.deleteAccount()
+    }
+
     override func makeSubscription() {
         service.$currentUser.sink { [weak self] currentUser in
             guard let currentUser = currentUser else { return }

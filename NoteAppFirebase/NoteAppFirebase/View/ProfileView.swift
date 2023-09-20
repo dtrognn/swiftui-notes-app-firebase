@@ -33,7 +33,10 @@ struct ProfileView: View {
                     .cornerRadius(AppConfig.layout.standardCornerRadius)
                     .padding(.top, AppConfig.layout.standardSpace)
                 Spacer()
-                logoutButton
+                VStack(spacing: AppConfig.layout.mediumSpace) {
+                    logoutButton
+                    deleteButton
+                }.padding(.bottom, AppConfig.layout.bottomButtonSpace)
             }.padding(.horizontal, AppConfig.layout.standardSpace)
         }
     }
@@ -43,7 +46,7 @@ private extension ProfileView {
     var logoutButton: some View {
         CommonButton(text: "Sign out", isEnable: $viewModel.isEnableButton) {
             viewModel.signOut()
-        }.padding(.bottom, AppConfig.layout.bottomButtonSpace)
+        }
     }
 
     var editButton: some View {
@@ -55,6 +58,22 @@ private extension ProfileView {
                 .renderingMode(.template)
                 .foregroundColor(AppConfig.theme.iconColor)
                 .frame(width: 24, height: 24)
+        }
+    }
+
+    var deleteButton: some View {
+        Button {
+            Task {
+                await viewModel.deleteAccount()
+            }
+        } label: {
+            Text("Delete account")
+                .font(AppConfig.font.medium16)
+                .foregroundColor(AppConfig.theme.whiteTextColor)
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, AppConfig.layout.mediumSpace)
+                .background(Color.red)
+                .cornerRadius(AppConfig.layout.standardCornerRadius)
         }
     }
 

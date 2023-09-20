@@ -32,6 +32,10 @@ struct LoginView: View {
                 registerView
             }.edgesIgnoringSafeArea(.all)
                 .padding(.horizontal, AppConfig.layout.standardSpace)
+        }.alert(viewModel.alert.title, isPresented: $viewModel.isShowError, presenting: viewModel.alert) { _ in
+            Button("Dismiss", role: .cancel) {}
+        } message: { alert in
+            Text(alert.message)
         }
     }
 }

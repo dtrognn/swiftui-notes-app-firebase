@@ -39,14 +39,14 @@ struct NoteTabView: View {
 
 private extension NoteTabView {
     var homeTabView: some View {
-        VStack(spacing: AppConfig.layout.mediumSpace) {
+        VStack(spacing: AppConfig.layout.smallSpace) {
             homeButton
             homeText
         }
     }
 
     var userTabView: some View {
-        VStack(spacing: AppConfig.layout.mediumSpace) {
+        VStack(spacing: AppConfig.layout.smallSpace) {
             userButton
             userText
         }
@@ -56,7 +56,7 @@ private extension NoteTabView {
         Button {
             tabSelected = 0
         } label: {
-            Image(systemName: "house.fill")
+            Image(systemName: "house.circle.fill")
                 .resizable()
                 .renderingMode(.template)
                 .frame(width: 30, height: 30)
@@ -68,7 +68,7 @@ private extension NoteTabView {
         Button {
             tabSelected = 1
         } label: {
-            Image(systemName: "person.circle.fill")
+            Image(systemName: "person.circle")
                 .resizable()
                 .renderingMode(.template)
                 .frame(width: 30, height: 30)
